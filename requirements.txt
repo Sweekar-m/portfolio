@@ -1,0 +1,7 @@
+Flask
+gunicorn
+pydub
+ffmpeg-python
+faster-whisper
+torch==2.0.1
+transformers

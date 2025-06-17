@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweekar | AI Portfolio</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body onload="opengreeting()">
+  <!-- Section 1: Intro -->
+  <section class="section intro-cinematic" id="intro" >
+    <div class="cinematic-overlay"></div>
+    <div class="intro-orb"></div>
+    <div class="center intro-content">
+      <h1 class="intro-title">Sweekar M</h1>
+      <p class="intro-subtitle">AI Engineer | Product Builder | Portfolio powered by AI</p>
+      <div class="intro-greeting" id="introGreeting"></div>
+    </div>
+    <div class="intro-wave">
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path id="wavePath" d="M0,60 Q360,120 720,60 T1440,60 V120 H0 Z" fill="url(#waveGradient)"/>
+        <defs>
+          <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8be9fd" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#232946" stop-opacity="0.0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Section 2: Projects -->
+  <section class="section projects-section" id="projects">
+    <div class="projects-header">
+      <span class="projects-icon">🚀</span>
+      <h2>Featured Projects</h2>
+      <p class="projects-subtitle">A showcase of my best work, blending AI, engineering, and creativity.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card" onclick="openPopup(0)">
+        <div class="project-card-icon">🤖</div>
+        <h3>Project 1</h3>
+        <p>Quick summary of project 1</p>
+      </div>
+      <div class="project-card" onclick="openPopup(1)">
+        <div class="project-card-icon">🧠</div>
+        <h3>Project 2</h3>
+        <p>Quick summary of project 2</p>
+      </div>
+      <div class="project-card" onclick="openPopup(2)">
+        <div class="project-card-icon">🌐</div>
+        <h3>Project 3</h3>
+        <p>Quick summary of project 3</p>
+      </div>
+    </div>
+    <!-- Popup for demo videos -->
+    
+    </div>
+  </section>
+
+  <!-- Section 3: Choose Interaction -->
+  <section class="section" id="interaction-choice">
+    <div class="interaction-card">
+      <div class="interaction-header">
+        <span class="interaction-icon">🤖</span>
+        <h2>Choose Your Experience</h2>
+        <p class="interaction-subtitle">How would you like to interact with the AI portfolio?</p>
+      </div>
+      <div class="interaction-buttons">
+        <button id="openVoiceBtn" class="interaction-btn voice" onclick="openSection('voice')">
+          <span class="interaction-btn-icon">🎙️</span> Voice Conversation
+        </button>
+        <button id="openChatBtn" class="interaction-btn chat" onclick="openSection('chat')">
+          <span class="interaction-btn-icon">💬</span> Text Chat
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Voice Conversation -->
+  <section class="section locked" id="voice">
+    <div class="voicebot-container">
+      <div class="voicebot-header">
+        <span>🎤 Futuristic Voice Bot</span>
+      </div>
+      <div id="voicebot-messages" class="voicebot-messages">
+        <!-- Voice chat bubbles will appear here -->
+          <div class="voicebot-mic-row">
+        <div class="voice-visualizer-container">
+        <div class="voice-visualizer-bar" id="bar1"></div>
+        <div class="voice-visualizer-bar" id="bar2"></div>
+        <div class="voice-visualizer-bar" id="bar3"></div>
+      </div>
+      </div>
+     </div>
+        <button id="startVoice" class="voicebot-mic-btn" onclick="startVoiceChat()">
+          <span class="mic-icon">🔵</span> Start Talking
+        </button>
+      
+      
+      <div id="voiceResponse" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- Section 5: Text Chat -->
+  <section class="section locked" id="chat">
+    <div class="chatbot-container">
+      <div class="chatbot-header">
+        <span>🤖 AI Chatbot</span>
+      </div>
+      <div id="chatbox" class="chatbot-messages"></div>
+      <div class="chatbot-input-row">
+        <input type="text" id="userInput" placeholder="Ask me anything..." autocomplete="off">
+        <button class="chatbot-send-btn" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="/static/js/main.js"></script>
+  <script>
+window.addEventListener('DOMContentLoaded', function() {
+  // Cinematic greeting text
+  const greeting = "Welcome to Sweekar's AI Portfolio. Experience the future of interactive portfolios.";
+  document.getElementById('introGreeting').textContent = greeting;
+  // Speech synthesis
+  if ('speechSynthesis' in window) {
+    const utter = new SpeechSynthesisUtterance(greeting);
+    utter.rate = 1.02;
+    utter.pitch = 1.1;
+    utter.volume = 1;
+    utter.lang = 'en-US';
+    window.speechSynthesis.speak(utter);
+  }
+});
+
+// Animate the SVG wave
+(function animateWave() {
+  const wave = document.getElementById('wavePath');
+  let t = 0;
+  function draw() {
+    t += 0.018;
+    const amplitude = 24;
+    const freq = 1.5;
+    const y1 = 60 + Math.sin(t) * amplitude;
+    const y2 = 60 + Math.cos(t * freq) * amplitude * 0.7;
+    wave.setAttribute('d', `M0,${y1} Q360,${120 - y1} 720,${y2} T1440,${y1} V120 H0 Z`);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+function openSection(sectionId) {
+  document.getElementById('voice').classList.add('locked');
+  document.getElementById('chat').classList.add('locked');
+  if (sectionId === 'voice') {
+    document.getElementById('voice').classList.remove('locked');
+    document.getElementById('voice').scrollIntoView({behavior: 'smooth'});
+  } else if (sectionId === 'chat') {
+    document.getElementById('chat').classList.remove('locked');
+    document.getElementById('chat').scrollIntoView({behavior: 'smooth'});
+  }
+}
+</script>
+</body>
+</html>

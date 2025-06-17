@@ -1,0 +1,17 @@
+[
+  {
+    "title": "SlideNova",
+    "summary": "An AI-powered tool that converts plain text into professional PowerPoint presentations.",
+    "video_url": "/static/assets/demo_videos/slidenova.mp4"
+  },
+  {
+    "title": "Stealth Assistant",
+    "summary": "A Python-based assistant that captures system audio and screen content, transcribes and analyzes it in real-time.",
+    "video_url": "/static/assets/demo_videos/stealth_assistant.mp4"
+  },
+  {
+    "title": "FoodieSpot AI Agent",
+    "summary": "Conversational AI for restaurant reservations using LLaMA API, tool calling, and real-time chat or voice interface.",
+    "video_url": "/static/assets/demo_videos/foodiespot.mp4"
+  }
+]

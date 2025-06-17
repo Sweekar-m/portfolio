@@ -3,5 +3,5 @@ gunicorn
 pydub
 ffmpeg-python
 faster-whisper
-torch==2.0.1
+torch==2.7.1
 transformers

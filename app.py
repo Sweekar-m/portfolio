@@ -1,14 +1,11 @@
-import subprocess
-subprocess.run(["apt-get", "update"])
-subprocess.run(["apt-get", "install", "-y", "ffmpeg"])
-
 from flask import Flask, render_template, request, jsonify
 from agent.tool_router import route_intent
 from agent.llama_client import ask_llama
 from utils.json_loader import load_json
 from faster_whisper import WhisperModel
 from io import BytesIO
-from pydub import AudioSegment
+import subprocess
+import tempfile
 import sys
 import os
 import socket
@@ -36,20 +33,33 @@ def ask():
     final_reply = tool_reply if tool_reply else llm_reply
     return jsonify({"response": final_reply})
 
+def convert_webm_to_wav(input_bytes):
+    with tempfile.NamedTemporaryFile(suffix=".webm", delete=False) as temp_in:
+        temp_in.write(input_bytes)
+        temp_in.flush()
+        temp_out = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
+        temp_out.close()
+
+        try:
+            subprocess.run([
+                "ffmpeg", "-y", "-i", temp_in.name, "-ar", "16000", "-ac", "1", "-f", "wav", temp_out.name
+            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception as e:
+            raise RuntimeError(f"ffmpeg failed: {e}")
+
+        with open(temp_out.name, "rb") as f:
+            return BytesIO(f.read())
+
 @app.route('/voice', methods=['POST'])
 def voice():
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'}), 400
 
     audio_file = request.files['audio']
-    audio_bytes = BytesIO(audio_file.read())
+    audio_bytes = audio_file.read()
 
     try:
-        # Convert webm to wav
-        webm_audio = AudioSegment.from_file(audio_bytes, format="webm")
-        wav_io = BytesIO()
-        webm_audio.export(wav_io, format="wav")
-        wav_io.seek(0)
+        wav_io = convert_webm_to_wav(audio_bytes)
     except Exception as e:
         return jsonify({'error': f'Audio conversion failed: {str(e)}'}), 500
 

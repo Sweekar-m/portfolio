@@ -2,7 +2,7 @@ import requests
 import json
 from utils.json_loader import load_json
 
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "YOUR_OPENROUTER_API_KEY"
 MODEL = "meta-llama/llama-3-8b-instruct"
 
 def ask_llama(prompt):

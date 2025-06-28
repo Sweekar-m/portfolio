@@ -1,5 +1,3 @@
-# agent/conversation_state.py
-
 class ConversationState:
     def __init__(self):
         self.state = {}
